@@ -4,4 +4,5 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "amazon.settings")
 application = get_wsgi_application()
-app = application  # Vercel looks for `app` or `handler`
+app = application  # Vercel looks for `app`
+handler = application  # Vercel may also look for `handler`
