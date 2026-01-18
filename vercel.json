@@ -1,14 +1,14 @@
 {
   "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" }
-  ],
-  "functions": {
-    "api/index.py": {
-      "runtime": "python3.11"
+    {
+      "src": "amazon/wsgi.py",
+      "use": "@vercel/python"
     }
-  },
+  ],
   "routes": [
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "/api/index.py" }
+    {
+      "src": "/(.*)",
+      "dest": "amazon/wsgi.py"
+    }
   ]
 }
