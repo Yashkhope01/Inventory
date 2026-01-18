@@ -2,6 +2,9 @@
 import os
 import sys
 
+# Set Django settings before any imports
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'amazon.settings')
+
 # Expose WSGI entrypoints for hosts that import this file directly (e.g. Vercel)
 from amazon.wsgi import application as app  # noqa: E402
 handler = app
