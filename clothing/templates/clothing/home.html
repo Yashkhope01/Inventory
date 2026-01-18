@@ -116,9 +116,6 @@
     <section class="grid">
         {% for pro in prod %}
         <div class="card">
-            {% if pro.image %}
-            <img src="{{ pro.image.url }}" alt="{{ pro.name }}" style="width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:10px;">
-            {% endif %}
             <h2>{{ pro.name }}</h2>
             <div class="price">${{ pro.price }}</div>
             <div class="meta">Stock: {{ pro.stock }}</div>
@@ -143,7 +140,7 @@
 
     <section class="form-card">
         <h2 style="margin-top:0; margin-bottom:12px;">Add Product</h2>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button class="submit-btn" type="submit">Save Product</button>

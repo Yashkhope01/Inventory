@@ -16,38 +16,32 @@ git clone https://github.com/Yashkhope01/Inventory.git
 cd Inventory
 ```
 
-## 4. Create Virtual Environment
+## 4. Install Dependencies (No Virtual Environment Needed)
 ```bash
-# Delete corrupted venv if exists
+# Remove any broken venv
 rmvirtualenv clothing-env 2>/dev/null || true
+deactivate 2>/dev/null || true
 
-# Create fresh virtual environment
-mkvirtualenv --python=/usr/bin/python3.11 clothing-env
-
-# Upgrade pip first
-python -m pip install --upgrade pip
-
-# Install requirements
-pip install -r requirements.txt
+# Install using system pip3.11 with --user flag
+cd ~/Inventory
+/usr/bin/python3.11 -m pip install --user -r requirements.txt
 ```
 
-## 5. Setup Database
-In **Databases** tab:
-- Initialize MySQL database (free)
-- Note the database name, username, and password
+## 5. Setup Environment (Free Tier - SQLite)
+**For free tier, we'll use SQLite (no database service needed):**
 
-Update settings in Bash console:
 ```bash
-export DATABASE_URL="mysql://USERNAME:PASSWORD@USERNAME.mysql.pythonanywhere-services.com/USERNAME$clothing_shop"
-export DJANGO_SECRET_KEY="10*%=xd%nkhy8r_c)uv*^09ve0!qdtvqkno8cwp&(j4x7d4ako"
+cd ~/Inventory
+export DJANGO_SECRET_KEY='abc123xyz789simplekey'
+# No DATABASE_URL needed - will use default SQLite
 ```
 
 ## 6. Run Migrations
 ```bash
 cd ~/Inventory
-python manage.py migrate
-python manage.py collectstatic --no-input
-python manage.py createsuperuser
+/usr/bin/python3.11 manage.py migrate
+/usr/bin/python3.11 manage.py collectstatic --no-input
+/usr/bin/python3.11 manage.py createsuperuser
 ```
 
 ## 7. Configure WSGI
@@ -63,10 +57,10 @@ path = '/home/YOURUSERNAME/Inventory'
 if path not in sys.path:
     sys.path.append(path)
 
-# Set environment variables
+# Set environment variables (SQLite - no DATABASE_URL needed)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'amazon.settings'
-os.environ['DJANGO_SECRET_KEY'] = '10*%=xd%nkhy8r_c)uv*^09ve0!qdtvqkno8cwp&(j4x7d4ako'
-os.environ['DATABASE_URL'] = 'mysql://USERNAME:PASSWORD@USERNAME.mysql.pythonanywhere-services.com/USERNAME$clothing_shop'
+os.environ['DJANGO_SECRET_KEY'] = 'abc123xyz789simplekey'
+# DATABASE_URL not set - will use default SQLite database
 
 # Import Django WSGI application
 from django.core.wsgi import get_wsgi_application
@@ -82,7 +76,7 @@ In **Web** tab → **Static files** section, add:
 
 ## 9. Set Virtual Environment
 In **Web** tab → **Virtualenv** section:
-- Enter: `/home/YOURUSERNAME/.virtualenvs/clothing-env`
+- **Leave this field EMPTY** (we're using system Python with --user packages)
 
 ## 10. Reload Web App
 Click the big green **Reload** button
@@ -94,9 +88,9 @@ Your app will be live at: `https://yourusername.pythonanywhere.com`
 cd ~/Inventory
 git pull
 pip install -r requirements.txt
-python manage.py migrate
-python manage.py collectstatic --no-input
-```
+/usr/bin/python3.11 -m pip install --user -r requirements.txt
+/usr/bin/python3.11 manage.py migrate
+/usr/bin/python3.11
 
 Then reload from Web tab.
 
