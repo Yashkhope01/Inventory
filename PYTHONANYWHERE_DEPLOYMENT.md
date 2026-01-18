@@ -18,7 +18,16 @@ cd Inventory
 
 ## 4. Create Virtual Environment
 ```bash
+# Delete corrupted venv if exists
+rmvirtualenv clothing-env 2>/dev/null || true
+
+# Create fresh virtual environment
 mkvirtualenv --python=/usr/bin/python3.11 clothing-env
+
+# Upgrade pip first
+python -m pip install --upgrade pip
+
+# Install requirements
 pip install -r requirements.txt
 ```
 
