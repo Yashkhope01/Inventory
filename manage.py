@@ -15,11 +15,17 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'amazon.settings')
 try:
     from amazon.wsgi import application as app
     handler = app
-except Exception:
-    # If WSGI app cannot be loaded (e.g. missing deps), allow CLI to try running.
-    # We assign None to avoid NameError if a host checks for these variables.
-    app = None
-    handler = None
+except Exception as e:
+    import sys
+    print(f"Serverless import failed (ignoring): {e}", file=sys.stderr)
+    # Fallback: create a dummy WSGI app to satisfy Vercel's variable check.
+    # This prevents the "Missing variable 'handler' or 'app'" error during build/scan.
+    # Since traffic is routed to api/index.py, this dummy app won't actually handle requests.
+    def dummy_app(environ, start_response):
+        start_response('500 Internal Server Error', [('Content-Type', 'text/plain')])
+        return [b"manage.py is not a valid entry point. Check logs."]
+    app = dummy_app
+    handler = dummy_app
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'amazon.settings')
