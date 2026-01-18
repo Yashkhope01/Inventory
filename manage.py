@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
-import sys
+import os
 
 
 def main():
@@ -20,3 +20,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# Expose WSGI application for Vercel fallbacks (handler/app)
+try:
+    from amazon.wsgi import application as app  # noqa: E402
+    handler = app
+except Exception:
+    # Ignore if imports fail in CLI contexts
+    pass
