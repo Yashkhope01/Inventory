@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "amazon/wsgi.py",
+      "src": "api/index.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "amazon/wsgi.py"
+      "dest": "api/index.py"
     }
   ]
 }

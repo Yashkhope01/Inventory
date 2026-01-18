@@ -2,8 +2,7 @@
 import os
 import sys
 
-# Expose WSGI entrypoints for platforms (e.g. Vercel) that import this file
-# and expect a module-level `app` or `handler` instead of running `main()`.
+
 try:
     from amazon.wsgi import application as app  # noqa: E402
     handler = app
