@@ -3,12 +3,8 @@ import os
 import sys
 
 # Expose WSGI entrypoints for hosts that import this file directly (e.g. Vercel)
-try:
-    from amazon.wsgi import application as app  # noqa: E402
-    handler = app
-except Exception:
-    app = None
-    handler = None
+from amazon.wsgi import application as app  # noqa: E402
+handler = app
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'amazon.settings')
