@@ -2,12 +2,24 @@
 import os
 import sys
 
+# Add the project root to sys.path to ensure module resolution works
+# regardless of how the script is invoked.
+current_path = os.path.dirname(os.path.abspath(__file__))
+if current_path not in sys.path:
+    sys.path.append(current_path)
+
 # Set Django settings before any imports
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'amazon.settings')
 
 # Expose WSGI entrypoints for hosts that import this file directly (e.g. Vercel)
-from amazon.wsgi import application as app  # noqa: E402
-handler = app
+try:
+    from amazon.wsgi import application as app
+    handler = app
+except Exception:
+    # If WSGI app cannot be loaded (e.g. missing deps), allow CLI to try running.
+    # We assign None to avoid NameError if a host checks for these variables.
+    app = None
+    handler = None
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'amazon.settings')
